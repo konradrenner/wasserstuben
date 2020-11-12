@@ -1,0 +1,8 @@
+= Wasserverwaltung
+
+[plantuml]
+----
+[member] as member
+[address] as address
+[water meter] as meter
+----

@@ -16,6 +16,7 @@
  */
 package org.kore.wg.boundary.facility.rest;
 
+import org.kore.wg.boundary.facility.ui.RealEstateModel;
 import java.util.ArrayList;
 import java.util.Set;
 import javax.inject.Inject;

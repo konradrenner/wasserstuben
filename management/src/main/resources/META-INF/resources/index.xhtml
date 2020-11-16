@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./templates/mainTemplate.xhtml">
+    
+    <ui:define name="top">
+        top
+    </ui:define>
+
+    <ui:define name="left">
+        left
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataTable var="realEstate" value="#{realEstateView.realEstates}" paginator="true" rows="10"
+                             paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{realEstateView.selectedRealEstate}" id="realEstateTable" lazy="true">
+                    <p:ajax event="rowSelect" listener="#{realEstateView.onRowSelect}" update=":form:realEstateDetail" oncomplete="PF('realEstateDialog').show()" />
+                    <p:column headerText="Id" sortBy="#{realEstate.id}" filterBy="#{realEstate.id}">
+                        <h:outputText value="#{realEstate.id}" />
+                    </p:column>
+                </p:dataTable>
+
+                <p:dialog header="Real Estate Detail" widgetVar="realEstateDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="realEstateDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty realEstateView.selectedRealEstate}" columnClasses="label,value">
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{realEstateView.selectedRealEstate.id}" />
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+    </ui:define>
+
+</ui:composition>

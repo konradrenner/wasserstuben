@@ -21,10 +21,8 @@ export class AppComponent {
   selector: 'app-default',
   template: `
     In <b>default</b> component. 
-    <a [routerLink]="['/other']">Other</a> | 
-    <a [routerLink]="['/rest']">Rest</a> |
-    <a [routerLink]="['/real-estates']">Real Estates</a> |
-    <a href="{{externalUrl}}">External</a>
+    <a [routerLink]="['/skeleton']">Other</a> | 
+    <a [routerLink]="['/real-estates']">Real Estates</a> 
   `,
   styles: []
 })
@@ -40,50 +38,11 @@ export class DefaultComponent {
 }
 
 @Component({
-  selector: 'app-other',
+  selector: 'app-skeleton',
   template: `
-    In <b>other</b> component. <a [routerLink]="['/']">Default</a>
+    OMG you are in the <b>SKELETON</b> component. <a [routerLink]="['/']">Default</a>
   `,
   styles: []
 })
-export class OtherComponent {
+export class SkeletonComponent {
 }
-
-@Component({
-  selector: 'app-rest',
-  template: `
-    In <b>rest</b> component. <a [routerLink]="['/']">Default</a><br>
-    Message was: {{msg$ | async}}
-  `,
-  styles: []
-})
-export class RestComponent implements OnInit {
-  msg$: Subject<string> = new BehaviorSubject<string>("");
-
-  constructor(private _http: HttpClient) {
-  }
-
-  ngOnInit(): void {
-    this._http.get('/api/v1/realestates', {responseType: 'text'})
-    .pipe(
-      take(1)
-    )
-    .subscribe(
-      msg => this.msg$.next(msg),
-      err => {
-        console.error(err);
-        this.msg$.next("An error happened - see the console log for details");
-      });
-  }
-}
-
-@Component({
-  selector: 'app-rest',
-  template: `
-    Received callback from server! <a [routerLink]="['/']">Default</a>
-  `,
-  styles: []
-})
-export class ClientCallbackComponent {
-}
-

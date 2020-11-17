@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {DefaultComponent, OtherComponent, RestComponent, ClientCallbackComponent} from './app.component'
+import {DefaultComponent, SkeletonComponent} from './app.component'
 import {RealEstatesComponent} from './real-estates/real-estates.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: DefaultComponent},
-  {path: 'other', component: OtherComponent},
-  {path: 'rest', component: RestComponent},
-  {path: 'real-estates', component: RealEstatesComponent},
-  {path: 'clientCallback', component: ClientCallbackComponent}
+  {path: 'skeleton', component: SkeletonComponent},
+  {path: 'real-estates', component: RealEstatesComponent}
 ];
 
 @NgModule({

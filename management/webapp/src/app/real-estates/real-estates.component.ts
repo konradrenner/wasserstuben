@@ -6,7 +6,7 @@ import {RealEstate} from '../realestate';
 @Component({
   selector: 'app-real-estates',
   templateUrl: './real-estates.component.html',
-  styleUrls: ['./real-estates.component.sass']
+  styleUrls: ['./real-estates.component.css']
 })
 export class RealEstatesComponent implements OnInit {
     

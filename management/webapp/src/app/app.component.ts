@@ -23,6 +23,7 @@ export class AppComponent {
     In <b>default</b> component. 
     <a [routerLink]="['/other']">Other</a> | 
     <a [routerLink]="['/rest']">Rest</a> |
+    <a [routerLink]="['/real-estates']">Real Estates</a> |
     <a href="{{externalUrl}}">External</a>
   `,
   styles: []

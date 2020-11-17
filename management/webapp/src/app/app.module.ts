@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {DefaultComponent, OtherComponent, RestComponent, ClientCallbackComponent} from './app.component'
 import { HttpClientModule } from '@angular/common/http';
+import { RealEstatesComponent } from './real-estates/real-estates.component';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
     DefaultComponent,
     OtherComponent,
     RestComponent,
-    ClientCallbackComponent
+    ClientCallbackComponent,
+    RealEstatesComponent
   ],
   imports: [
     BrowserModule,

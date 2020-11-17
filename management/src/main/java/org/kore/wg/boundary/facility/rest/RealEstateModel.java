@@ -30,10 +30,9 @@ import org.kore.wg.entity.facility.RealEstate;
  */
 public class RealEstateModel {
 
-    @JsonbProperty("realestate-id")
     public RealEstateIdModel id;
     public Collection<OwnerModel> owner;
-    @JsonbProperty("counter-fittings")
+    @JsonbProperty("counterfittings")
     public Collection<CounterFittingModel> fittings;
 
     public static final RealEstateModel from(RealEstate estate){

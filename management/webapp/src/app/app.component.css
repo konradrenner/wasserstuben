@@ -20,3 +20,7 @@
     display: inline-block;
     padding-left: 6px;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}

@@ -14,34 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-export interface RealEstate{
-    id: RealEstateId;
-    owner: Owner[];
-    fittings: CounterFitting[];
-}
+package org.kore.wg.boundary.facility.rest;
 
-export interface RealEstateList{
-    realestates: RealEstate[];
-    totalNumber: number;
-}
+import java.util.Collection;
 
-export interface RealEstateId{
-    cadastralTownshipNumber: number;
-    estateId: string;
-    depositNumber: number;
-    
-}
+/**
+ *
+ * @author Konrad Renner
+ */
+public class RealEstateListModel {
+    public Collection<RealEstateModel> realestates;
+    public long totalNumber;
 
-export interface CounterFitting{
-    id: string;
-    description: string;
-    manufacturer: string;
-    installation: string;
-    calibrations: string[];
-}
+    @Override
+    public String toString() {
+        return "RealEstateListModel{" + "realestates=" + realestates + ", totalNumber=" + totalNumber + '}';
+    }
 
-export interface Owner{
-    id: string;
-    firstname: string;
-    lastname: string;
 }

@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,9 +40,9 @@ public class RealEstateResource {
     
     @Inject
     RealEstateRepository repo;
-    
+    //http://localhost:4200/api/v1/realestates?limit=${limit}&page=${page}sort=${sort}&order=${order}
     @GET
-    public Response getRealEstates(){
+    public Response getRealEstates(@PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
         
         Set<RealEstate> allEstates = repo.findAll();
         
@@ -49,8 +50,10 @@ public class RealEstateResource {
             return Response.noContent().build();
         }
 
-        ArrayList<RealEstateModel> estateModels = new ArrayList<>(allEstates.size());
-        allEstates.stream().map(RealEstateModel::from).forEach(estateModels::add);
+        RealEstateListModel estateModels = new RealEstateListModel();
+        estateModels.realestates = new ArrayList<>(allEstates.size());
+        estateModels.totalNumber = 500;
+        allEstates.stream().map(RealEstateModel::from).forEach(estateModels.realestates::add);
 
         return Response.ok(estateModels).build();
     }

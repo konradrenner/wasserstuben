@@ -34,6 +34,7 @@ public class CounterFittingModel {
 
     @JsonbProperty("counterfitting-id")
     public UUID id;
+    public String description;
     public String manufacturer;
     public ZonedDateTime installation;
     public Collection<ZonedDateTime> calibrations;
@@ -41,6 +42,7 @@ public class CounterFittingModel {
     public static final CounterFittingModel from(CounterFitting fitting){
         CounterFittingModel model = new CounterFittingModel();
         model.id = fitting.getId();
+        model.description = fitting.getDescription();
         model.manufacturer = fitting.getManufacturer().name();
         model.installation = fitting.getInstallation().value().atZone(ZoneId.systemDefault());
         
@@ -56,7 +58,7 @@ public class CounterFittingModel {
 
     @Override
     public String toString() {
-        return "CounterFittingModel{" + "id=" + id + ", manufacturer=" + manufacturer + ", installation=" + installation + ", calibrations=" + calibrations + '}';
+        return "CounterFittingModel{" + "id=" + id + ", description=" + description + ", manufacturer=" + manufacturer + ", installation=" + installation + ", calibrations=" + calibrations + '}';
     }
-    
+
 }

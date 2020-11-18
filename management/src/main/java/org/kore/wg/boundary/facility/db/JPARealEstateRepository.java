@@ -42,7 +42,8 @@ public class JPARealEstateRepository implements RealEstateRepository{
     @Override
     public Set<RealEstate> findAll() {
         Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));
-        CounterFitting fitting = new CounterFitting(UUID.randomUUID(), 
+        CounterFitting fitting = new CounterFitting(UUID.randomUUID(),
+                "Mustermann Fitting 1",
                 new Installation(Instant.now()), 
                 new Manufacturer("Super Mario"), 
                 Arrays.asList(new Calibration(Instant.now())));

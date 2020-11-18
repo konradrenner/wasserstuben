@@ -29,16 +29,18 @@ import java.util.UUID;
  */
 public class CounterFitting {
     private final UUID id;
+    private final String description;
     private final Installation installation;
     private final Manufacturer manufacturer;
     private final SortedSet<Calibration> calibrations;
 
-    public CounterFitting(UUID id, Installation installation, Manufacturer manufacturer) {
-        this(id,installation,manufacturer, new TreeSet<>());
+    public CounterFitting(UUID id, String description, Installation installation, Manufacturer manufacturer) {
+        this(id, description, installation, manufacturer, new TreeSet<>());
     }
 
-    public CounterFitting(UUID id, Installation installation, Manufacturer manufacturer, Collection<Calibration> calibrations) {
+    public CounterFitting(UUID id, String description, Installation installation, Manufacturer manufacturer, Collection<Calibration> calibrations) {
         this.id = id;
+        this.description = description;
         this.installation = installation;
         this.manufacturer = manufacturer;
         this.calibrations = new TreeSet<>(calibrations);
@@ -47,6 +49,11 @@ public class CounterFitting {
     public UUID getId() {
         return id;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
 
     public Installation getInstallation() {
         return installation;
@@ -91,8 +98,8 @@ public class CounterFitting {
 
     @Override
     public String toString() {
-        return "CounterFitting{" + "id=" + id + ", installation=" + installation + ", manufacturer=" + manufacturer + ", calibrations=" + calibrations + '}';
+        return "CounterFitting{" + "id=" + id + ", description=" + description + ", installation=" + installation + ", manufacturer=" + manufacturer + ", calibrations=" + calibrations + '}';
     }
-    
+
     
 }

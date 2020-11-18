@@ -21,7 +21,7 @@ export class RealEstatesComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
     
-  realestates: RealEstate[] = [];
+  realEstates: RealEstate[] = [];
 
   constructor(private realEstatesService: RealEstatesService) { }
 
@@ -40,21 +40,23 @@ export class RealEstatesComponent implements AfterViewInit {
           // Flip flag to show that loading has finished.
           this.isLoadingResults = false;
           this.resultsLength = data.totalNumber;
-
+          
           return data.realestates;
         }),
         catchError(() => {
           this.isLoadingResults = false;
           return observableOf([]);
         })
-      ).subscribe(data => this.realestates = data);
+      ).subscribe(data => this.realEstates = data);
   }
   
   printOwners(owner: Owner[]): string{
-      var ret:string = "";
-      owner.forEach(o => ret.concat(o.lastname).concat(' ').concat(o.firstname).concat(', '));
-      ret.substr(0, ret.length-2);
-      return ret;
+      let ret:string = "";
+      for(let i=0;i<owner.length;i++){
+          console.log(owner[i]);
+          ret = ret.concat(owner[i].lastname).concat(' ').concat(owner[i].firstname).concat(', ');
+      }
+      return ret.substr(0, ret.length-2);
   }
   
 }

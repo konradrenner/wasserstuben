@@ -6,36 +6,31 @@
 
   <div class="real-estate-table-container">
 
-    <table mat-table [dataSource]="realestates" class="real-estate-table"
+    <table mat-table [dataSource]="realEstates" class="real-estate-table"
            matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
-      <!-- Number Column -->
       <ng-container matColumnDef="cadastralTownshipNumber">
         <th mat-header-cell *matHeaderCellDef>KG-Nummer</th>
-        <td mat-cell *matCellDef="let row">{{row.cadastralTownshipNumber}}</td>
+        <td mat-cell *matCellDef="let realestate">{{realestate.id.cadastralTownshipNumber}}</td>
       </ng-container>
 
-      <!-- Title Column -->
       <ng-container matColumnDef="estateId">
         <th mat-header-cell *matHeaderCellDef>Grundstücksnummer</th>
-        <td mat-cell *matCellDef="let row">{{row.estateId}}</td>
+        <td mat-cell *matCellDef="let realestate">{{realestate.id.estateId}}</td>
       </ng-container>
 
-      <!-- State Column -->
       <ng-container matColumnDef="depositNumber">
         <th mat-header-cell *matHeaderCellDef>Einlagezahl</th>
-        <td mat-cell *matCellDef="let row">{{row.depositNumber}}</td>
+        <td mat-cell *matCellDef="let realestate">{{realestate.id.depositNumber}}</td>
       </ng-container>
       
-      <!-- State Column -->
       <ng-container matColumnDef="owner">
         <th mat-header-cell *matHeaderCellDef>Besitzer</th>
-        <td mat-cell *matCellDef="let row">{{printOwners(row.owner)}}</td>
+        <td mat-cell *matCellDef="let realestate">{{printOwners(realestate.owner)}}</td>
       </ng-container>
       
-      <!-- State Column -->
       <ng-container matColumnDef="fittings">
         <th mat-header-cell *matHeaderCellDef>Zählergarnituren</th>
-        <td mat-cell *matCellDef="let row">{{row.fittings.length}}</td>
+        <td mat-cell *matCellDef="let realestate">{{realestate.counterfittings.length}}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

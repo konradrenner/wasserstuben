@@ -17,7 +17,7 @@
 export interface RealEstate{
     id: RealEstateId;
     owner: Owner[];
-    fittings: CounterFitting[];
+    counterfittings: CounterFitting[];
 }
 
 export interface RealEstateList{

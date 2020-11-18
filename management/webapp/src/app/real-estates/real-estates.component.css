@@ -2,6 +2,7 @@
 .real-estate-container {
   position: relative;
   min-height: 200px;
+  margin: 10px;
 }
 
 .real-estate-table-container {

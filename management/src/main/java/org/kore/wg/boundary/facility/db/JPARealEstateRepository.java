@@ -41,6 +41,8 @@ public class JPARealEstateRepository implements RealEstateRepository{
 
     @Override
     public Set<RealEstate> findAll() {
+        LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
+        
         Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));
         CounterFitting fitting = new CounterFitting(UUID.randomUUID(),
                 "Mustermann Fitting 1",
@@ -51,9 +53,25 @@ public class JPARealEstateRepository implements RealEstateRepository{
         RealEstateId id = new RealEstateId(1, "asbc", 2);
         
         RealEstate realEstate = new RealEstate(id, Arrays.asList(owner), Arrays.asList(fitting));
-        
-        LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
         ret.add(realEstate);
+        
+        Owner owner2 = new Owner(UUID.randomUUID(),new Name("Mizzi", "Musterfrau"));
+        fitting = new CounterFitting(UUID.randomUUID(),
+                "Musterfrau Fitting 1",
+                new Installation(Instant.now()), 
+                new Manufacturer("Super Mario"), 
+                Arrays.asList(new Calibration(Instant.now())));
+        CounterFitting fitting2 = new CounterFitting(UUID.randomUUID(),
+                "Musterfrau Fitting 2",
+                new Installation(Instant.now()), 
+                new Manufacturer("Luigi"), 
+                Arrays.asList(new Calibration(Instant.now())));
+        
+        id = new RealEstateId(3, "xyz", 9);
+        
+        realEstate = new RealEstate(id, Arrays.asList(owner, owner2), Arrays.asList(fitting, fitting2));
+        ret.add(realEstate);
+        
         return ret;
     }
     

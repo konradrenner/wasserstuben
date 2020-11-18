@@ -5,6 +5,7 @@ import {map, shareReplay, take} from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {TenantService} from './tenant.service';
 import {Tenant} from './tenant';
+import {NavEntry} from './naventry';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,14 @@ import {Tenant} from './tenant';
 })
 export class AppComponent  implements OnInit{
     
-    tenantName = "Watermanager";
+    navEntries: NavEntry[] = [{title:'Dashboard', link: '/skeleton', icon: 'dashboard'},
+    {title:'Verrechnung', link: '/skeleton', icon: 'euro_symbol'},
+    {title:'Verwaltung', link: '/skeleton', icon: 'fact_check'},
+    {title:'Liegenschaften', link: '/real-estates', icon: 'home_work'},
+    {title:'Adressen', link: '/skeleton', icon: 'contact_mail'}];
+    
+    tenantName = "AquaElit";
+    actNavigation = "";
     
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -25,6 +33,10 @@ export class AppComponent  implements OnInit{
   
   ngOnInit() {
       this.tenantName = this.tenantService.getTenant().name;
+  }
+  
+  handleNavClick(navEntry: NavEntry){
+      this.actNavigation = navEntry.title;
   }
 }
 

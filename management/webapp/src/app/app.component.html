@@ -3,17 +3,13 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-      <mat-toolbar>AquaElit</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item routerLink="/skeleton"><mat-icon>dashboard</mat-icon><span class="nav-caption">Dashboard</span></a>
-      <a mat-list-item routerLink="/skeleton"><mat-icon>euro_symbol</mat-icon><span class="nav-caption">Verrechnung</span></a>
-      <a mat-list-item routerLink="/skeleton"><mat-icon>fact_check</mat-icon><span class="nav-caption">Verwaltung</span></a>
-      <a mat-list-item routerLink="/real-estates"><mat-icon>home_work</mat-icon><span class="nav-caption">Liegenschaften</span></a>
-      <a mat-list-item routerLink="/skeleton"><mat-icon>contact_mail</mat-icon><span class="nav-caption">Adressen</span></a>
+    <mat-toolbar class="mat-elevation-z2"><span>{{tenantName}}</span></mat-toolbar>
+    <mat-nav-list #navlist *ngFor="let naventry of navEntries" (click)="handleNavClick(naventry)" >
+          <a mat-list-item routerLink="{{naventry.link}}"><mat-icon>{{naventry.icon}}</mat-icon><span class="nav-caption">{{naventry.title}}</span></a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar class="mat-elevation-z2" color="primary">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -22,7 +18,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>{{tenantName}}</span>
+      <span>{{actNavigation}}</span>
       <span class="spacer"></span>
       <button mat-icon-button class="toolbar-icon" aria-label="Suche">
         <mat-icon>search</mat-icon>

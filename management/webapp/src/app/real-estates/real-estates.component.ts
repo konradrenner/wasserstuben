@@ -1,18 +1,21 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, Output, EventEmitter} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { RealEstatesService } from '../real-estates.service';
 import {RealEstate, Owner} from '../realestate';
+import {ToolbarPossibilites} from '../toolbar';
 
 @Component({
   selector: 'app-real-estates',
   templateUrl: './real-estates.component.html',
   styleUrls: ['./real-estates.component.css']
 })
-export class RealEstatesComponent implements AfterViewInit {
+export class RealEstatesComponent implements AfterViewInit, ToolbarPossibilites {
+  toolbarType = 'RealEstatesComponent';
+
   displayedColumns: string[] = ['cadastralTownshipNumber', 'estateId', 'depositNumber', 'owner', 'fittings'];
   
   resultsLength = 0;
@@ -24,6 +27,10 @@ export class RealEstatesComponent implements AfterViewInit {
   realEstates: RealEstate[] = [];
 
   constructor(private realEstatesService: RealEstatesService) { }
+
+  searchActive(): boolean {
+    return true;
+  }
 
   ngAfterViewInit() {
       // If the user changes the sort order, reset back to the first page.
@@ -53,7 +60,6 @@ export class RealEstatesComponent implements AfterViewInit {
   printOwners(owner: Owner[]): string{
       let ret:string = "";
       for(let i=0;i<owner.length;i++){
-          console.log(owner[i]);
           ret = ret.concat(owner[i].lastname).concat(' ').concat(owner[i].firstname).concat(', ');
       }
       return ret.substr(0, ret.length-2);

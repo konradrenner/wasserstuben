@@ -20,13 +20,13 @@
       </button>
       <span>{{actNavigation}}</span>
       <span class="spacer"></span>
-      <button mat-icon-button class="toolbar-icon" aria-label="Suche">
+      <button mat-icon-button class="toolbar-icon" aria-label="Suche" *ngIf="searchPossible">
         <mat-icon>search</mat-icon>
       </button>
       <button mat-icon-button class="toolbar-icon" aria-label="Benutzer">
         <mat-icon>account_circle</mat-icon>
       </button>
     </mat-toolbar>
-    <router-outlet></router-outlet>
+    <router-outlet (activate)='onComponentActivated($event)'></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

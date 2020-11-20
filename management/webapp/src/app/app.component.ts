@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, shareReplay, take} from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {TenantService} from './tenant.service';
 import {Tenant} from './tenant';
 import {NavEntry} from './naventry';
+import {ToolbarPossibilites} from './toolbar';
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,8 @@ export class AppComponent  implements OnInit{
     
     tenantName = "AquaElit";
     actNavigation = "";
+    searchPossible = false;
+    searchActive = false;
     
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -38,6 +41,14 @@ export class AppComponent  implements OnInit{
   handleNavClick(navEntry: NavEntry){
       this.actNavigation = navEntry.title;
   }
+
+  onComponentActivated(component: any){
+    if('toolbarType' in component){
+      this.searchPossible = (component as ToolbarPossibilites).searchActive();
+    }else{
+      this.searchPossible = false;
+    }
+  }
 }
 
 @Component({
@@ -48,4 +59,5 @@ export class AppComponent  implements OnInit{
   styles: []
 })
 export class SkeletonComponent {
+
 }

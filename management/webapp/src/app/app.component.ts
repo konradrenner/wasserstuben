@@ -20,11 +20,14 @@ export class AppComponent  implements OnInit{
     {title:'Verwaltung', link: '/skeleton', icon: 'fact_check'},
     {title:'Liegenschaften', link: '/real-estates', icon: 'home_work'},
     {title:'Adressen', link: '/skeleton', icon: 'contact_mail'}];
-    
+
+    toolbarPossiblites: ToolbarPossibilites = <ToolbarPossibilites> {};
+
     tenantName = "AquaElit";
     actNavigation = "";
     searchPossible = false;
     searchActive = false;
+    searchString = "";
     
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
@@ -42,9 +45,22 @@ export class AppComponent  implements OnInit{
       this.actNavigation = navEntry.title;
   }
 
+  enableSearch(){
+    this.searchActive = true;
+  }
+
+  disableSearch(){
+    this.searchActive = false;
+  }
+
+  performSearch(){
+    this.toolbarPossiblites.performSearch(this.searchString);
+  }
+
   onComponentActivated(component: any){
     if('toolbarType' in component){
-      this.searchPossible = (component as ToolbarPossibilites).searchActive();
+      this.toolbarPossiblites = component as ToolbarPossibilites
+      this.searchPossible = this.toolbarPossiblites.searchActive();
     }else{
       this.searchPossible = false;
     }

@@ -10,22 +10,43 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar class="mat-elevation-z2" color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>{{actNavigation}}</span>
-      <span class="spacer"></span>
-      <button mat-icon-button class="toolbar-icon" aria-label="Suche" *ngIf="searchPossible">
-        <mat-icon>search</mat-icon>
-      </button>
-      <button mat-icon-button class="toolbar-icon" aria-label="Benutzer">
-        <mat-icon>account_circle</mat-icon>
-      </button>
+      <!-- Pre-Search Bar -->
+      <div *ngIf="!searchActive" class="mat-primary mat-toolbar-single-row search-bar">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>{{actNavigation}}</span>
+        <span class="spacer"></span>
+        <button mat-icon-button class="toolbar-icon" aria-label="Suche" *ngIf="searchPossible" (click)="enableSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
+        <button mat-icon-button class="toolbar-icon" aria-label="Benutzer">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </div>
+      <!-- Search bar -->
+      <div *ngIf="searchActive" class="mat-primary mat-toolbar-single-row search-bar">
+
+        <button mat-icon-button class="toolbar-icon" aria-label="Suche"(click)="performSearch()">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <!-- Input Text -->
+        <mat-form-field class="search-input">
+          <mat-label>Suchbegriff</mat-label>
+          <input matInput type="search" value="">
+        </mat-form-field>
+        
+
+        <button mat-icon-button class="toolbar-icon " aria-label="Suche"(click)="disableSearch()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <router-outlet (activate)='onComponentActivated($event)'></router-outlet>
   </mat-sidenav-content>

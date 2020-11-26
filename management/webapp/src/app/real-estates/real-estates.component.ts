@@ -29,7 +29,7 @@ export class RealEstatesComponent implements AfterViewInit, ToolbarPossibilites 
   constructor(private realEstatesService: RealEstatesService) { }
 
   performSearch(search: string): void {
-    this.loadData();
+    this.loadData(search);
   }
 
   searchActive(): boolean {
@@ -37,10 +37,10 @@ export class RealEstatesComponent implements AfterViewInit, ToolbarPossibilites 
   }
 
   ngAfterViewInit() {
-    this.loadData();
+    this.loadData('');
   }
 
-  loadData(){
+  loadData(search: string){
   // If the user changes the sort order, reset back to the first page.
   this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
@@ -49,7 +49,7 @@ export class RealEstatesComponent implements AfterViewInit, ToolbarPossibilites 
       startWith({}),
       switchMap(() => {
         this.isLoadingResults = true;
-        return this.realEstatesService!.getRealEstates(this.paginator.pageSize, this.paginator.pageIndex, this.sort.active, this.sort.direction);
+        return this.realEstatesService!.getRealEstates(search,this.paginator.pageSize, this.paginator.pageIndex, this.sort.active, this.sort.direction);
       }),
       map(data => {
         // Flip flag to show that loading has finished.

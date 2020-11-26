@@ -37,9 +37,9 @@
         </button>
 
         <!-- Input Text -->
-        <mat-form-field class="search-input">
+        <mat-form-field class="search-input" (keydown.enter)="performSearch()">
           <mat-label>Suchbegriff</mat-label>
-          <input matInput type="search" value="">
+          <input matInput type="search" value="{{searchString}}" (keyup)="onSearchKey($event)" >
         </mat-form-field>
         
 

@@ -11,7 +11,7 @@ export class RealEstatesService {
     
   constructor(private http: HttpClient) { }
 
-  getRealEstates(limit: number, page: number, sort: string, order: string): Observable<RealEstateList>{
-      return this.http.get<RealEstateList>('/api/v1/realestates?limit='+limit+'&page='+page+'sort='+'&order='+order);
+  getRealEstates(search: string, limit: number, page: number, sort: string, order: string): Observable<RealEstateList>{
+      return this.http.get<RealEstateList>('/api/v1/realestates?search='+search+'&limit='+limit+'&page='+page+'sort='+'&order='+order);
   }
 }

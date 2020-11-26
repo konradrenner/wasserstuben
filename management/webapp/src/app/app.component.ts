@@ -40,6 +40,10 @@ export class AppComponent  implements OnInit{
   ngOnInit() {
       this.tenantName = this.tenantService.getTenant().name;
   }
+
+  onSearchKey(event: any) { 
+    this.searchString = event.target.value;
+  }
   
   handleNavClick(navEntry: NavEntry){
       this.actNavigation = navEntry.title;
@@ -51,6 +55,7 @@ export class AppComponent  implements OnInit{
 
   disableSearch(){
     this.searchActive = false;
+    this.searchString = '';
   }
 
   performSearch(){

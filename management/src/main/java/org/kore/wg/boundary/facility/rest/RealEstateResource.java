@@ -40,9 +40,8 @@ public class RealEstateResource {
     
     @Inject
     RealEstateRepository repo;
-    //http://localhost:4200/api/v1/realestates?limit=${limit}&page=${page}sort=${sort}&order=${order}
     @GET
-    public Response getRealEstates(@PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
+    public Response getRealEstates(@PathParam("search") String search, @PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
         
         Set<RealEstate> allEstates = repo.findAll();
         

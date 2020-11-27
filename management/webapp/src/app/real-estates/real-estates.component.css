@@ -43,3 +43,7 @@ table {
 .mat-column-created {
   max-width: 124px;
 }
+
+.mat-row:hover{
+  background: #d8dbd8;
+}

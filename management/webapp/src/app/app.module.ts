@@ -38,6 +38,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { RealEstatesDetailComponent } from './real-estates-detail/real-estates-detail.component';
 
 export function startupTenantFactory(tenantService: TenantService): Function {
     return () => tenantService.load();
@@ -47,7 +48,8 @@ export function startupTenantFactory(tenantService: TenantService): Function {
   declarations: [
     AppComponent,
     SkeletonComponent,
-    RealEstatesComponent
+    RealEstatesComponent,
+    RealEstatesDetailComponent
   ],
   imports: [
     BrowserModule,

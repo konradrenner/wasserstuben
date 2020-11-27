@@ -32,8 +32,8 @@
       <!-- Search bar -->
       <div *ngIf="searchActive" class="mat-primary mat-toolbar-single-row search-bar">
 
-        <button mat-icon-button class="toolbar-icon" aria-label="Suche"(click)="performSearch()">
-          <mat-icon>search</mat-icon>
+        <button mat-icon-button class="toolbar-icon" aria-label="Suche" (click)="disableSearch()">
+          <mat-icon>arrow_back</mat-icon>
         </button>
 
         <!-- Input Text -->
@@ -42,9 +42,8 @@
           <input matInput type="search" value="{{searchString}}" (keyup)="onSearchKey($event)" >
         </mat-form-field>
         
-
-        <button mat-icon-button class="toolbar-icon " aria-label="Suche"(click)="disableSearch()">
-          <mat-icon>close</mat-icon>
+        <button mat-icon-button class="toolbar-icon" aria-label="Suche"(click)="performSearch()">
+          <mat-icon>search</mat-icon>
         </button>
       </div>
     </mat-toolbar>

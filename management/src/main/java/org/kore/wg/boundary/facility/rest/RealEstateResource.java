@@ -17,6 +17,7 @@
 package org.kore.wg.boundary.facility.rest;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -28,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.RealEstate;
+import org.kore.wg.entity.facility.RealEstateId;
 
 /**
  *
@@ -40,9 +42,10 @@ public class RealEstateResource {
     
     @Inject
     RealEstateRepository repo;
+
     @GET
     public Response getRealEstates(@PathParam("search") String search, @PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
-        
+        // TODO: https://opensource.zalando.com/restful-api-guidelines/#json-guidelines
         Set<RealEstate> allEstates = repo.findAll();
         
         if(allEstates.isEmpty()){
@@ -55,5 +58,21 @@ public class RealEstateResource {
         allEstates.stream().map(RealEstateModel::from).forEach(estateModels.realestates::add);
 
         return Response.ok(estateModels).build();
+    }
+
+    @GET
+    @Path("/{realestateid}")
+    public Response getRealEstate(@PathParam("realestateid") String realestateid) {
+        String[] splitted = realestateid.split("-");
+
+        RealEstateId id = new RealEstateId(Long.valueOf(splitted[0]), splitted[1], Long.valueOf(splitted[2]));
+
+        Set<RealEstate> allEstates = repo.findAll();
+        Optional<RealEstate> real = allEstates.stream().filter(estate -> estate.getId().equals(id)).findFirst();
+
+        if (real.isPresent()) {
+            return Response.ok(real.map(RealEstateModel::from).get()).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

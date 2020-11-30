@@ -4,7 +4,7 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar class="mat-elevation-z2"><span>{{tenantName}}</span></mat-toolbar>
-    <mat-nav-list #navlist *ngFor="let naventry of navEntries" (click)="handleNavClick(naventry)" >
+    <mat-nav-list #navlist *ngFor="let naventry of navEntries" (click)="handleNavClick(naventry, drawer.close);" >
           <a mat-list-item routerLink="{{naventry.link}}"><mat-icon>{{naventry.icon}}</mat-icon><span class="nav-caption">{{naventry.title}}</span></a>
     </mat-nav-list>
   </mat-sidenav>

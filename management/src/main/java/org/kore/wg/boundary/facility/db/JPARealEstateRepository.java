@@ -17,6 +17,9 @@
 package org.kore.wg.boundary.facility.db;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -45,14 +48,20 @@ public class JPARealEstateRepository implements RealEstateRepository{
         
         Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));
         CounterFitting fitting = new CounterFitting(UUID.randomUUID(),
+                "Musterfrau Fitting 2",
+                new Installation(LocalDateTime.of(2000, Month.MARCH, 15, 10, 11).toInstant(ZoneOffset.UTC)),
+                new Manufacturer("Luigi"),
+                Arrays.asList(new Calibration(Instant.now()), new Calibration(LocalDateTime.of(2000, Month.MARCH, 15, 10, 11).toInstant(ZoneOffset.UTC))));
+
+        CounterFitting fitting2 = new CounterFitting(UUID.randomUUID(),
                 "Mustermann Fitting 1",
-                new Installation(Instant.now()), 
-                new Manufacturer("Super Mario"), 
+                new Installation(Instant.now()),
+                new Manufacturer("Super Mario"),
                 Arrays.asList(new Calibration(Instant.now())));
         
         RealEstateId id = new RealEstateId(1, "asbc", 2);
         
-        RealEstate realEstate = new RealEstate(id, Arrays.asList(owner), Arrays.asList(fitting));
+        RealEstate realEstate = new RealEstate(id, Arrays.asList(owner), Arrays.asList(fitting, fitting2));
         ret.add(realEstate);
         
         Owner owner2 = new Owner(UUID.randomUUID(),new Name("Mizzi", "Musterfrau"));
@@ -61,15 +70,11 @@ public class JPARealEstateRepository implements RealEstateRepository{
                 new Installation(Instant.now()), 
                 new Manufacturer("Super Mario"), 
                 Arrays.asList(new Calibration(Instant.now())));
-        CounterFitting fitting2 = new CounterFitting(UUID.randomUUID(),
-                "Musterfrau Fitting 2",
-                new Installation(Instant.now()), 
-                new Manufacturer("Luigi"), 
-                Arrays.asList(new Calibration(Instant.now())));
+
         
         id = new RealEstateId(3, "xyz", 9);
         
-        realEstate = new RealEstate(id, Arrays.asList(owner, owner2), Arrays.asList(fitting, fitting2));
+        realEstate = new RealEstate(id, Arrays.asList(owner, owner2), Arrays.asList(fitting));
         ret.add(realEstate);
         
         return ret;

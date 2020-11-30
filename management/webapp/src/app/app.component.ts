@@ -45,8 +45,11 @@ export class AppComponent  implements OnInit{
     this.searchString = event.target.value;
   }
   
-  handleNavClick(navEntry: NavEntry){
+  handleNavClick(navEntry: NavEntry, closeFunction: Function){
       this.actNavigation = navEntry.title;
+      if(this.isHandset$){
+        closeFunction();
+      }
   }
 
   enableSearch(){

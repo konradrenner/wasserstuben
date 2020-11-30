@@ -1,0 +1,32 @@
+.details-row{
+    padding: 2px;
+    max-width: 100%;
+}
+
+.id-card {
+    margin: 4px
+}
+
+.id-table {
+  width: 100%;
+}
+
+.id-card td.mat-cell {
+    border-bottom-style: none;
+}
+
+.owner-card {
+    margin: 4px
+}
+
+.owner-table {
+  width: 100%;
+}
+
+.fitting-card {
+    margin: 4px
+}
+
+.fitting-table {
+  width: 100%;
+}

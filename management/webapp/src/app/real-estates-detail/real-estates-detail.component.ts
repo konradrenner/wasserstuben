@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { RealEstatesService } from '../real-estates.service';
-import { RealEstate } from '../realestate';
+import { RealEstate, RealEstateId, Owner, CounterFitting } from '../realestate';
 
 @Component({
   selector: 'app-real-estates-detail',
@@ -9,6 +9,15 @@ import { RealEstate } from '../realestate';
   styleUrls: ['./real-estates-detail.component.css']
 })
 export class RealEstatesDetailComponent implements OnInit {
+
+  idColumns: string[] = ['cadastralTownshipNumber', 'estateId', 'depositNumber'];
+  idValues: RealEstateId[] = [];
+
+  ownerColumns: string[] = ['lastname', 'firstname'];
+  ownerValues: Owner[] = [];
+
+  fittingColumns: string[] = ['description', 'manufacturer', 'installation', 'lastcalibration'];
+  fittingValues: CounterFitting[] = [];
 
   cadastralTownshipNumber !: number;
   estateId !: string;
@@ -30,7 +39,10 @@ export class RealEstatesDetailComponent implements OnInit {
     });
 
     this.realEstatesService.getRealEstate(this.cadastralTownshipNumber, this.estateId, this.depositNumber)
-    .subscribe(estate => this.realEstate = estate);
+    .subscribe(estate => {this.realEstate = estate; 
+      this.idValues = [this.realEstate.id]; 
+      this.ownerValues = this.realEstate.owner; 
+      this.fittingValues = this.realEstate.counterfittings;});
   }
 
 }

@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeDeAt from '@angular/common/locales/de-AT';
+import { NgModule, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { TenantService } from './tenant.service';
 import { AppComponent } from './app.component';
@@ -8,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RealEstatesComponent } from './real-estates/real-estates.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
@@ -38,7 +42,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { RealEstatesDetailComponent } from './real-estates-detail/real-estates-detail.component';
+import {RealEstatesDetailComponent} from './real-estates-detail/real-estates-detail.component';
+import {ZonedDateTimeStringToDatePipe} from './ZonedDateTimeStringToDatePipe';
+
+registerLocaleData(localeDe);     // de-DE
+registerLocaleData(localeDeAt);   // de-AT
 
 export function startupTenantFactory(tenantService: TenantService): Function {
     return () => tenantService.load();
@@ -49,7 +57,8 @@ export function startupTenantFactory(tenantService: TenantService): Function {
     AppComponent,
     SkeletonComponent,
     RealEstatesComponent,
-    RealEstatesDetailComponent
+    RealEstatesDetailComponent,
+    ZonedDateTimeStringToDatePipe
   ],
   imports: [
     BrowserModule,
@@ -57,6 +66,7 @@ export function startupTenantFactory(tenantService: TenantService): Function {
     HttpClientModule,
     BrowserAnimationsModule,
     LayoutModule,
+    FlexLayoutModule,
     MatCheckboxModule,
     MatButtonModule,
     MatInputModule,
@@ -89,6 +99,7 @@ export function startupTenantFactory(tenantService: TenantService): Function {
     MatPaginatorModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: "de-AT" },
     TenantService,
         {
             provide: APP_INITIALIZER,

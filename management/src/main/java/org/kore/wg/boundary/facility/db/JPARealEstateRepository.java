@@ -25,6 +25,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.CounterFitting;
 import org.kore.wg.entity.facility.RealEstate;
@@ -40,10 +42,15 @@ import org.kore.wg.entity.facility.Name;
  * @author Konrad Renner
  */
 @ApplicationScoped
-public class JPARealEstateRepository implements RealEstateRepository{
+public class JPARealEstateRepository implements RealEstateRepository {
+
+    @Inject
+    EntityManager em;
 
     @Override
     public Set<RealEstate> findAll() {
+        em.createNamedQuery("Realestate.findAll", RealEstate.class).getResultList();
+
         LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
         
         Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));

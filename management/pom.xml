@@ -19,6 +19,7 @@
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
         <resources-plugin.version>3.1.0</resources-plugin.version>
+        <testcontainers.postres.version>1.15.0</testcontainers.postres.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -103,6 +104,24 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-narayana-jta</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.postres.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5-mockito</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

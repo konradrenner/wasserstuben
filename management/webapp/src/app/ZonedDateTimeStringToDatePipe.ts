@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 @Pipe({name: 'zoneddatetimestringToDate'})
 export class ZonedDateTimeStringToDatePipe implements PipeTransform {
   transform(value: string): Date {
-    return new Date(value.substring(0,9));
+    let stripped = value.substring(0,19);
+    return new Date(stripped);
   }
 }

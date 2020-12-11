@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kore.wg.boundary.facility.db;
+package org.kore.wg.boundary.facility.jpa;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -40,10 +40,15 @@ import org.kore.wg.entity.facility.Name;
  * @author Konrad Renner
  */
 @ApplicationScoped
-public class JPARealEstateRepository implements RealEstateRepository{
+public class JPARealEstateRepository implements RealEstateRepository {
 
     @Override
     public Set<RealEstate> findAll() {
+
+//        List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
+        
+//        Logger.getLogger("JPARealEstateRepository").info(resultList.toString());
+
         LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
         
         Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));

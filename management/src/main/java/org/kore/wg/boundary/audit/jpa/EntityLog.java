@@ -14,21 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kore.wg.boundary.facility.rest;
-
-import java.util.Collection;
+package org.kore.wg.boundary.audit.jpa;
 
 /**
  *
  * @author Konrad Renner
  */
-public class RealEstateListModel {
-    public Collection<RealEstateModel> realestates;
-    public long totalNumber;
-
-    @Override
-    public String toString() {
-        return "RealEstateListModel{" + "realestates=" + realestates + ", totalNumber=" + totalNumber + '}';
-    }
+public class EntityLog {
 
 }

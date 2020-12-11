@@ -14,30 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kore.wg.boundary.tenant.rest;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+package org.kore.wg.boundary.audit.jpa;
 
 /**
  *
  * @author Konrad Renner
  */
-@Path("/tenant")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class TenantResource {
-    
-    @GET
-    public Response getTenant() {
-        TenantModel tenant = new TenantModel();
-        tenant.setId("stuben");
-        tenant.setName("WG Stuben");
+public class AggregateLog {
 
-        return Response.ok(tenant).build();
-    }
 }

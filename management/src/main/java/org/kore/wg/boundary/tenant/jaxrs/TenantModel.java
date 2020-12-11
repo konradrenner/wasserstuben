@@ -14,28 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kore.wg.boundary.facility.rest;
+package org.kore.wg.boundary.tenant.jaxrs;
 
-import org.kore.wg.entity.facility.RealEstateId;
 /**
  *
  * @author Konrad Renner
  */
-public class RealEstateIdModel {
-    public long cadastralTownshipNumber;
-    public String estateId;
-    public long depositNumber;
-    
-    public static final RealEstateIdModel from(RealEstateId id){
-        RealEstateIdModel model = new RealEstateIdModel();
-        model.cadastralTownshipNumber = id.cadastralTownshipNumber();
-        model.estateId = id.estateId();
-        model.depositNumber = id.depositNumber();
-        return model;
+public class TenantModel {
+    private String id;
+    private String name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return "RealEstateIdModel{" + "cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + '}';
+        return "TenantModel{" + "id=" + id + ", name=" + name + '}';
     }
+
 }

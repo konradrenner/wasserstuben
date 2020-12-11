@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
-public class TenantResourceTest {
+public class RealEstateResourceIT {
 
     @Test
     public void testHelloEndpoint() {
         given()
-                .when().get("/api/v1/tenant")
+                .when().get("/api/v1/realestates")
                 .then()
                 .statusCode(200);
     }

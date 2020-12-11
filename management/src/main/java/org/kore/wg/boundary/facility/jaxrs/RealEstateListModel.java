@@ -14,34 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.kore.wg.boundary.facility.rest;
+package org.kore.wg.boundary.facility.jaxrs;
 
-import java.util.UUID;
-import javax.json.bind.annotation.JsonbProperty;
-import org.kore.wg.entity.facility.Owner;
+import java.util.Collection;
 
 /**
  *
  * @author Konrad Renner
  */
-public class OwnerModel {
-
-    @JsonbProperty("owner-id")
-    public UUID id;
-    public String firstname;
-    public String lastname;
-
-    public static final OwnerModel from(Owner owner){
-        OwnerModel model = new OwnerModel();
-        model.id = owner.id();
-        model.firstname = owner.name().firstname();
-        model.lastname = owner.name().lastname();
-        return model;
-    }
+public class RealEstateListModel {
+    public Collection<RealEstateModel> realestates;
+    public long totalNumber;
 
     @Override
     public String toString() {
-        return "OwnerModel{" + "id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + '}';
+        return "RealEstateListModel{" + "realestates=" + realestates + ", totalNumber=" + totalNumber + '}';
     }
-    
+
 }

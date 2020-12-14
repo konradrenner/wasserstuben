@@ -33,7 +33,7 @@ import javax.persistence.Version;
 @NamedQuery(name = RealEstateEntity.FIND_ALL, query = "select realestate from RealEstateEntity realestate")
 public class RealEstateEntity implements Serializable {
 
-    static final String FIND_ALL = "";
+    static final String FIND_ALL = "RealEstateEntity.findAll";
 
     @Id
     private String id;

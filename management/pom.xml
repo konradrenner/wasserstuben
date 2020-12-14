@@ -9,14 +9,14 @@
         <archunit.version>0.14.1</archunit.version>
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
         <failsafe-plugin.version>2.22.2</failsafe-plugin.version>
-        <maven.compiler.target>15</maven.compiler.target>
         <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.parameters>true</maven.compiler.parameters>
-        <quarkus-plugin.version>1.10.2.Final</quarkus-plugin.version>
-        <quarkus.platform.version>1.10.2.Final</quarkus.platform.version>
+        <quarkus-plugin.version>1.10.3.Final</quarkus-plugin.version>
+        <quarkus.platform.version>1.10.3.Final</quarkus.platform.version>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
@@ -136,7 +136,8 @@
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
-                <version>${quarkus-plugin.version}</version>
+                <version>${quarkus-plugin.version}</version> 
+                <extensions>true</extensions>
                 <executions>
                     <execution>
                         <goals>
@@ -204,13 +205,13 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
                 <configuration>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
+                    <release>${maven.compiler.target}</release>
                 </configuration>
             </plugin>
         </plugins>
@@ -240,6 +241,9 @@
                                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                                         <maven.home>${maven.home}</maven.home>
                                     </systemPropertyVariables>
+                                    <compilerArgs>
+                                        <arg>--enable-preview</arg>
+                                    </compilerArgs>
                                 </configuration>
                             </execution>
                         </executions>

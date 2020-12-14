@@ -18,6 +18,7 @@ package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
@@ -39,8 +40,10 @@ public class RealEstateEntity implements Serializable {
     private String id;
     @Version
     private long version;
+    @Column(name = "cadastraltownship")
     private long cadastralTownshipNumber;
     private String estateId;
+    @Column(name = "depositid")
     private long depositNumber;
 
     public String getId() {

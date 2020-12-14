@@ -22,9 +22,13 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.CounterFitting;
 import org.kore.wg.entity.facility.RealEstate;
@@ -42,12 +46,15 @@ import org.kore.wg.entity.facility.Name;
 @ApplicationScoped
 public class JPARealEstateRepository implements RealEstateRepository {
 
+    @Inject
+    EntityManager em;
+
     @Override
     public Set<RealEstate> findAll() {
 
-//        List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
-        
-//        Logger.getLogger("JPARealEstateRepository").info(resultList.toString());
+        List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
+
+        Logger.getLogger("JPARealEstateRepository").info("" + resultList);
 
         LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
         

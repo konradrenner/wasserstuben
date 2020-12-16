@@ -17,7 +17,7 @@
 package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +41,7 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
     private String manufacturer;
     //sever stores in UTC!
     @Column(name = "installation", columnDefinition = "TIMESTAMP")
-    private LocalDateTime installation;
+    private Instant installation;
 
     @ManyToOne
     @JoinColumn(name = "REALESTATE_ID")
@@ -70,13 +70,22 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
         this.manufacturer = manufacturer;
     }
 
-    public LocalDateTime getInstallation() {
+    public Instant getInstallation() {
         return installation;
     }
 
-    public void setInstallation(LocalDateTime installation) {
+    public void setInstallation(Instant installation) {
         this.installation = installation;
     }
+
+    public List<CounterfittingCalibrationEntity> getCalibrations() {
+        return calibrations;
+    }
+
+    public void setCalibrations(List<CounterfittingCalibrationEntity> calibrations) {
+        this.calibrations = calibrations;
+    }
+
 
     @Override
     public String toString() {

@@ -17,7 +17,7 @@
 package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -36,7 +36,7 @@ import javax.persistence.Version;
 public class CounterfittingCalibrationEntity implements Serializable, Comparable<CounterfittingCalibrationEntity> {
 
     @Id
-    private LocalDateTime calibration;
+    private Instant calibration;
     @Id
     @ManyToOne
     private CounterfittingEntity counterfitting;
@@ -55,11 +55,11 @@ public class CounterfittingCalibrationEntity implements Serializable, Comparable
         this.counterfitting = counterfitting;
     }
 
-    public LocalDateTime getCalibration() {
+    public Instant getCalibration() {
         return calibration;
     }
 
-    public void setCalibration(LocalDateTime calibration) {
+    public void setCalibration(Instant calibration) {
         this.calibration = calibration;
     }
 

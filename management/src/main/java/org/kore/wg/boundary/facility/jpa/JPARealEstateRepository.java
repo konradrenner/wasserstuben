@@ -16,11 +16,6 @@
  */
 package org.kore.wg.boundary.facility.jpa;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneOffset;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,14 +25,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.kore.wg.control.facility.RealEstateRepository;
+import org.kore.wg.entity.facility.Calibration;
 import org.kore.wg.entity.facility.CounterFitting;
-import org.kore.wg.entity.facility.RealEstate;
-import org.kore.wg.entity.facility.Owner;
 import org.kore.wg.entity.facility.Installation;
 import org.kore.wg.entity.facility.Manufacturer;
-import org.kore.wg.entity.facility.Calibration;
-import org.kore.wg.entity.facility.RealEstateId;
 import org.kore.wg.entity.facility.Name;
+import org.kore.wg.entity.facility.Owner;
+import org.kore.wg.entity.facility.RealEstate;
+import org.kore.wg.entity.facility.RealEstateId;
 
 /**
  *
@@ -54,42 +49,39 @@ public class JPARealEstateRepository implements RealEstateRepository {
 
         List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
 
-        Logger.getLogger("JPARealEstateRepository").info("" + resultList);
+        Logger.getLogger("JPAR ealEstateRepository").info("" + resultList);
 
-        LinkedHashSet<RealEstate> ret = new LinkedHashSet<>();
-        
-        Owner owner = new Owner(UUID.randomUUID(),new Name("Max", "Mustermann"));
-        CounterFitting fitting = new CounterFitting(UUID.randomUUID(),
-                "Musterfrau Fitting 2",
-                new Installation(LocalDateTime.of(2000, Month.MARCH, 15, 10, 11).toInstant(ZoneOffset.UTC)),
-                new Manufacturer("Luigi"),
-                Arrays.asList(new Calibration(Instant.now()), new Calibration(LocalDateTime.of(2000, Month.MARCH, 15, 10, 11).toInstant(ZoneOffset.UTC))));
+        LinkedHashSet<RealEstate> realEstates = new LinkedHashSet<>(resultList.size());
+        resultList.stream().map(this::convertToRealEstate).forEach(realEstates::add);
 
-        CounterFitting fitting2 = new CounterFitting(UUID.randomUUID(),
-                "Mustermann Fitting 1",
-                new Installation(Instant.now()),
-                new Manufacturer("Super Mario"),
-                Arrays.asList(new Calibration(Instant.now())));
-        
-        RealEstateId id = new RealEstateId(1, "asbc", 2);
-        
-        RealEstate realEstate = new RealEstate(id, Arrays.asList(owner), Arrays.asList(fitting, fitting2));
-        ret.add(realEstate);
-        
-        Owner owner2 = new Owner(UUID.randomUUID(),new Name("Mizzi", "Musterfrau"));
-        fitting = new CounterFitting(UUID.randomUUID(),
-                "Musterfrau Fitting 1",
-                new Installation(Instant.now()), 
-                new Manufacturer("Super Mario"), 
-                Arrays.asList(new Calibration(Instant.now())));
-
-        
-        id = new RealEstateId(3, "xyz", 9);
-        
-        realEstate = new RealEstate(id, Arrays.asList(owner, owner2), Arrays.asList(fitting));
-        ret.add(realEstate);
-        
-        return ret;
+        return realEstates;
     }
-    
+
+    RealEstate convertToRealEstate(RealEstateEntity entity) {
+        RealEstateId id = new RealEstateId(entity.getCadastralTownshipNumber(), entity.getEstateId(), entity.getDepositNumber());
+        LinkedHashSet<Owner> owner = new LinkedHashSet<>();
+        entity.getOwners().stream().map(this::convertToOwner).forEach(owner::add);
+        LinkedHashSet<CounterFitting> fittings = new LinkedHashSet<CounterFitting>();
+        entity.getCounterfittings().stream().map(this::convertToCounterFitting).forEach(fittings::add);
+        return new RealEstate(id, owner, fittings);
+    }
+
+    Owner convertToOwner(OwnerEntity entity) {
+        return new Owner(UUID.fromString(entity.getId()), new Name(entity.getFirstname(), entity.getLastname()));
+    }
+
+    CounterFitting convertToCounterFitting(CounterfittingEntity entity) {
+        LinkedHashSet<Calibration> calibrations = new LinkedHashSet<>();
+        
+        entity.getCalibrations()
+                .stream()
+                .map(calibration -> new Calibration(calibration.getCalibration()))
+                .forEach(calibrations::add);
+        
+        return new CounterFitting(UUID.fromString(entity.getId()),
+                entity.getDescription(),
+                new Installation(entity.getInstallation()),
+                new Manufacturer(entity.getManufacturer()),
+                calibrations);
+    }
 }

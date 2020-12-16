@@ -17,6 +17,7 @@
 package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -37,12 +38,7 @@ public class OwnerEntity extends DefaultEntity implements Serializable {
     @ManyToMany(mappedBy = "owners")
     private List<RealEstateEntity> realEstates;
 
-
-    protected OwnerEntity() {
-        // JPA
-    }
-
-    public List<RealEstateEntity> getRealEstates() {
+    Collection<RealEstateEntity> getRealEstates() {
         return realEstates;
     }
 
@@ -50,7 +46,7 @@ public class OwnerEntity extends DefaultEntity implements Serializable {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
@@ -58,7 +54,7 @@ public class OwnerEntity extends DefaultEntity implements Serializable {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    void setLastname(String lastname) {
         this.lastname = lastname;
     }
 

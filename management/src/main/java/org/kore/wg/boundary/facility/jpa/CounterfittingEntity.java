@@ -50,15 +50,11 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
     @OneToMany(mappedBy = "counterfitting", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CounterfittingCalibrationEntity> calibrations;
 
-    protected CounterfittingEntity() {
-        // JPA
-    }
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -66,7 +62,7 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
         return manufacturer;
     }
 
-    public void setManufacturer(String manufacturer) {
+    void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
     }
 
@@ -74,16 +70,16 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
         return installation;
     }
 
-    public void setInstallation(Instant installation) {
+    void setInstallation(Instant installation) {
         this.installation = installation;
     }
 
-    public List<CounterfittingCalibrationEntity> getCalibrations() {
+    List<CounterfittingCalibrationEntity> getCalibrations() {
         return calibrations;
     }
 
-    public void setCalibrations(List<CounterfittingCalibrationEntity> calibrations) {
-        this.calibrations = calibrations;
+    public void addCalibration(CounterfittingCalibrationEntity calibration) {
+        this.calibrations.add(calibration);
     }
 
 

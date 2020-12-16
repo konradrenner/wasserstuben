@@ -17,13 +17,15 @@
 package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,7 +49,8 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
     private long depositNumber;
 
     @OneToMany(mappedBy = "realEstate", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<CounterfittingEntity> counterfittings;
+    @MapKey(name = "id")
+    private Map<String, CounterfittingEntity> counterfittings;
 
     @ManyToMany
     @JoinTable(
@@ -55,33 +58,26 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
             joinColumns = @JoinColumn(name = "REALESTATE_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "OWNER_ID", referencedColumnName = "ID")
     )
-    private List<OwnerEntity> owners;
+    @MapKey(name = "id")
+    private Map<String, OwnerEntity> owners;
 
-    protected RealEstateEntity() {
-        // JPA
+    Collection<CounterfittingEntity> getCounterfittings() {
+        return counterfittings.values();
     }
 
-    public List<CounterfittingEntity> getCounterfittings() {
-        return counterfittings;
+    void updateCounterfittings(Collection<CounterfittingEntity> fittings) {
+        //TODO: add new fittings, delete those which are not in the collection. Important: in den CounterFittingEntity the RealEstateEntity must also be updated!
     }
 
-    public void setCounterfittings(List<CounterfittingEntity> counterfittings) {
-        this.counterfittings = counterfittings;
-    }
-
-    public List<OwnerEntity> getOwners() {
-        return owners;
-    }
-
-    public void setOwners(List<OwnerEntity> owners) {
-        this.owners = owners;
+    Collection<OwnerEntity> getOwners() {
+        return owners.values();
     }
 
     public long getCadastralTownshipNumber() {
         return cadastralTownshipNumber;
     }
 
-    public void setCadastralTownshipNumber(long cadastralTownshipNumber) {
+    void setCadastralTownshipNumber(long cadastralTownshipNumber) {
         this.cadastralTownshipNumber = cadastralTownshipNumber;
     }
 
@@ -89,7 +85,7 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
         return estateId;
     }
 
-    public void setEstateId(String estateId) {
+    void setEstateId(String estateId) {
         this.estateId = estateId;
     }
 
@@ -97,7 +93,7 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
         return depositNumber;
     }
 
-    public void setDepositNumber(long depositNumber) {
+    void setDepositNumber(long depositNumber) {
         this.depositNumber = depositNumber;
     }
 

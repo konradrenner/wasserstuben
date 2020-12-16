@@ -32,11 +32,15 @@ public class DefaultEntity {
     @Version
     private long version;
 
+    protected DefaultEntity() {
+        // JPA
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    protected void setId(String id) {
         this.id = id;
     }
 
@@ -44,7 +48,7 @@ public class DefaultEntity {
         return version;
     }
 
-    public void setVersion(long version) {
+    protected void setVersion(long version) {
         this.version = version;
     }
 

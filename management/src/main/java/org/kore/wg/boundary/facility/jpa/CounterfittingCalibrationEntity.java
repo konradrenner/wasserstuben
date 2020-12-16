@@ -51,7 +51,7 @@ public class CounterfittingCalibrationEntity implements Serializable, Comparable
         return counterfitting;
     }
 
-    public void setCounterfitting(CounterfittingEntity counterfitting) {
+    void setCounterfitting(CounterfittingEntity counterfitting) {
         this.counterfitting = counterfitting;
     }
 
@@ -59,7 +59,7 @@ public class CounterfittingCalibrationEntity implements Serializable, Comparable
         return calibration;
     }
 
-    public void setCalibration(Instant calibration) {
+    void setCalibration(Instant calibration) {
         this.calibration = calibration;
     }
 
@@ -67,7 +67,7 @@ public class CounterfittingCalibrationEntity implements Serializable, Comparable
         return version;
     }
 
-    public void setVersion(long version) {
+    void setVersion(long version) {
         this.version = version;
     }
 

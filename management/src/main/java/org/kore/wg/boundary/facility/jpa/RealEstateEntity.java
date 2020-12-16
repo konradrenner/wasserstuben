@@ -17,11 +17,14 @@
 package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -45,6 +48,13 @@ public class RealEstateEntity implements Serializable {
     private String estateId;
     @Column(name = "depositid")
     private long depositNumber;
+
+    @OneToMany(mappedBy = "realEstate", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CounterfittingEntity> counterfittings;
+
+    protected RealEstateEntity() {
+        // JPA
+    }
 
     public String getId() {
         return id;
@@ -113,7 +123,7 @@ public class RealEstateEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "RealEstateEntity{" + "id=" + id + ", version=" + version + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + '}';
+        return "RealEstateEntity{" + "id=" + id + ", version=" + version + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + '}';
     }
 
 }

@@ -16,10 +16,26 @@
  */
 package org.kore.wg.boundary.facility.jpa;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
 /**
  *
  * @author Konrad Renner
  */
-public class OwnerEntity {
+@Entity
+@Table(name = "OWNER")
+public class OwnerEntity implements Serializable {
 
+    @Id
+    private String id;
+    @Version
+    private long version;
+
+    protected OwnerEntity() {
+        // JPA
+    }
 }

@@ -29,4 +29,5 @@ public class GeneralCodingRulesTest {
                     .andShould().beStatic()
                     .andShould().beFinal()
                     .because("we agreed on this convention");
+
 }

@@ -4,6 +4,7 @@
         <class>org.kore.wg.boundary.facility.jpa.RealEstateEntity</class>
         <class>org.kore.wg.boundary.facility.jpa.CounterfittingEntity</class>
         <class>org.kore.wg.boundary.facility.jpa.CounterfittingCalibrationEntity</class>
+        <class>org.kore.wg.boundary.facility.jpa.OwnerEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>

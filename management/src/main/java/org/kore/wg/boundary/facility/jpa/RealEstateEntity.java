@@ -23,6 +23,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,12 +55,36 @@ public class RealEstateEntity implements Serializable {
     @OneToMany(mappedBy = "realEstate", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CounterfittingEntity> counterfittings;
 
+    @ManyToMany
+    @JoinTable(
+            name = "REALESTATE_OWNER",
+            joinColumns = @JoinColumn(name = "REALESTATE_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "OWNER_ID", referencedColumnName = "ID")
+    )
+    private List<OwnerEntity> owners;
+
     protected RealEstateEntity() {
         // JPA
     }
 
     public String getId() {
         return id;
+    }
+
+    public List<CounterfittingEntity> getCounterfittings() {
+        return counterfittings;
+    }
+
+    public void setCounterfittings(List<CounterfittingEntity> counterfittings) {
+        this.counterfittings = counterfittings;
+    }
+
+    public List<OwnerEntity> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<OwnerEntity> owners) {
+        this.owners = owners;
     }
 
     public void setId(String id) {
@@ -123,7 +150,7 @@ public class RealEstateEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "RealEstateEntity{" + "id=" + id + ", version=" + version + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + '}';
+        return "RealEstateEntity{" + "id=" + id + ", version=" + version + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + ", owners=" + owners + '}';
     }
 
 }

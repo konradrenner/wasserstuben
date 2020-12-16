@@ -18,18 +18,16 @@ package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
+import org.kore.wg.boundary.jpa.DefaultEntity;
 
 /**
  *
@@ -38,14 +36,10 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "REALESTATE")
 @NamedQuery(name = RealEstateEntity.FIND_ALL, query = "select realestate from RealEstateEntity realestate")
-public class RealEstateEntity implements Serializable {
+public class RealEstateEntity extends DefaultEntity implements Serializable {
 
     static final String FIND_ALL = "RealEstateEntity.findAll";
 
-    @Id
-    private String id;
-    @Version
-    private long version;
     @Column(name = "cadastraltownship")
     private long cadastralTownshipNumber;
     private String estateId;
@@ -67,10 +61,6 @@ public class RealEstateEntity implements Serializable {
         // JPA
     }
 
-    public String getId() {
-        return id;
-    }
-
     public List<CounterfittingEntity> getCounterfittings() {
         return counterfittings;
     }
@@ -85,18 +75,6 @@ public class RealEstateEntity implements Serializable {
 
     public void setOwners(List<OwnerEntity> owners) {
         this.owners = owners;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public long getVersion() {
-        return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public long getCadastralTownshipNumber() {
@@ -124,33 +102,8 @@ public class RealEstateEntity implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final RealEstateEntity other = (RealEstateEntity) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "RealEstateEntity{" + "id=" + id + ", version=" + version + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + ", owners=" + owners + '}';
+        return "RealEstateEntity{ " + super.toString() + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + ", owners=" + owners + '}';
     }
 
 }

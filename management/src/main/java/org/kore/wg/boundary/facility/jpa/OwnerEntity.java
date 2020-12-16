@@ -18,12 +18,10 @@ package org.kore.wg.boundary.facility.jpa;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Version;
+import org.kore.wg.boundary.jpa.DefaultEntity;
 
 /**
  *
@@ -31,12 +29,8 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "OWNER")
-public class OwnerEntity implements Serializable {
+public class OwnerEntity extends DefaultEntity implements Serializable {
 
-    @Id
-    private String id;
-    @Version
-    private long version;
     private String firstname;
     private String lastname;
 
@@ -50,22 +44,6 @@ public class OwnerEntity implements Serializable {
 
     public List<RealEstateEntity> getRealEstates() {
         return realEstates;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public long getVersion() {
-        return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
     }
 
     public String getFirstname() {
@@ -85,33 +63,8 @@ public class OwnerEntity implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final OwnerEntity other = (OwnerEntity) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "OwnerEntity{" + "id=" + id + ", version=" + version + ", firstname=" + firstname + ", lastname=" + lastname + '}';
+        return "OwnerEntity{" + super.toString() + ", firstname=" + firstname + ", lastname=" + lastname + '}';
     }
 
 }

@@ -17,6 +17,7 @@
 package org.kore.wg.control.facility;
 
 import java.util.Set;
+import java.util.SortedSet;
 import org.kore.wg.entity.facility.RealEstate;
 
 /**
@@ -26,4 +27,25 @@ import org.kore.wg.entity.facility.RealEstate;
 public interface RealEstateRepository {
  
     Set<RealEstate> findAll();
+
+    Result find(String search, ResultArea area, Ordering ordering);
+
+    record ResultArea(long start, long maxCount) {
+
+    }
+
+    record Ordering(OrderingProperty property, OrderingDirection direction) {
+    }
+
+    record Result(SortedSet<RealEstate> estates, long totalCount) {
+
+    }
+
+    enum OrderingProperty {
+        OWNER, CATASTRALDOWNSHIPNUMBER, ESTATEID, DEPOSITNUMBER;
+    }
+
+    enum OrderingDirection {
+        ASC, DESC;
+    }
 }

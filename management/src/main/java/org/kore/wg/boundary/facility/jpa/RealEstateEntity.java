@@ -19,7 +19,6 @@ package org.kore.wg.boundary.facility.jpa;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -37,15 +36,25 @@ import org.kore.wg.boundary.jpa.DefaultEntity;
  */
 @Entity
 @Table(name = "REALESTATE")
-@NamedQuery(name = RealEstateEntity.FIND_ALL, query = "select realestate from RealEstateEntity realestate")
+@NamedQuery(name = RealEstateEntity.FIND_ALL,
+        query = "select realestate from RealEstateEntity realestate")
+@NamedQuery(name = RealEstateEntity.FIND_BY_ALL_FIELDS,
+        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
+        + "where realestate.cadastralTownshipNumber = :lsearch "
+        + "or realestate.depositNumber = :lsearch "
+        + "or UPPER(realestate.estateId) like :ssearch "
+        + "or UPPER(owners.firstname) like :ssearch "
+        + "or UPPER(owners.lastname) like :ssearch ")
+@NamedQuery(name = RealEstateEntity.FIND_BY_ALL_NUMERIC_FIELDS,
+        query = "select realestate from RealEstateEntity realestate")
 public class RealEstateEntity extends DefaultEntity implements Serializable {
 
     static final String FIND_ALL = "RealEstateEntity.findAll";
+    static final String FIND_BY_ALL_FIELDS = "RealEstateEntity.findByAllFields";
+    static final String FIND_BY_ALL_NUMERIC_FIELDS = "RealEstateEntity.findByNumericFields";
 
-    @Column(name = "cadastraltownship")
     private long cadastralTownshipNumber;
     private String estateId;
-    @Column(name = "depositid")
     private long depositNumber;
 
     @OneToMany(mappedBy = "realEstate", orphanRemoval = true, fetch = FetchType.LAZY)

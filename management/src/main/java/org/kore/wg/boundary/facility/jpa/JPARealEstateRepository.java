@@ -19,11 +19,14 @@ package org.kore.wg.boundary.facility.jpa;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.Calibration;
 import org.kore.wg.entity.facility.CounterFitting;
@@ -49,12 +52,50 @@ public class JPARealEstateRepository implements RealEstateRepository {
 
         List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
 
-        Logger.getLogger("JPAR ealEstateRepository").info("" + resultList);
+        Logger.getLogger("JPARealEstateRepository").info("" + resultList);
 
         LinkedHashSet<RealEstate> realEstates = new LinkedHashSet<>(resultList.size());
         resultList.stream().map(this::convertToRealEstate).forEach(realEstates::add);
 
         return realEstates;
+    }
+
+    @Override
+    public Result find(String search, ResultArea area, Ordering ordering) {
+        long totalCountOfRealEstates = getTotalCountOfRealEstates();
+        SortedSet<RealEstate> realEstates = new TreeSet<>();
+
+        if (totalCountOfRealEstates == 0) {
+            return new Result(realEstates, totalCountOfRealEstates);
+        }
+
+        try {
+            Long numericSearchValue = Long.valueOf(search);
+            findFromAllFields(search, numericSearchValue, area, ordering, realEstates);
+        } catch (NumberFormatException e) {
+            findFromAlphanumericFields(search, area, ordering);
+        }
+        return new Result(realEstates, totalCountOfRealEstates);
+    }
+
+    Result findFromAlphanumericFields(String search, ResultArea area, Ordering ordering) {
+        return null;
+    }
+
+    void findFromAllFields(String ssearch, Long lsearch, ResultArea area, Ordering ordering, SortedSet<RealEstate> realEstates) {
+        em.createNamedQuery(RealEstateEntity.FIND_BY_ALL_FIELDS, RealEstateEntity.class)
+                .setParameter("ssearch", "%" + ssearch + "%")
+                .setParameter("lsearch", lsearch)
+                .setFirstResult((int) area.start())
+                .setMaxResults((int) area.maxCount())
+                .getResultStream()
+                .map(this::convertToRealEstate)
+                .forEach(realEstates::add);
+    }
+
+    long getTotalCountOfRealEstates() {
+        Query queryTotal = em.createQuery("select count(e.id) from RealEstateEntity e");
+        return (long) queryTotal.getSingleResult();
     }
 
     RealEstate convertToRealEstate(RealEstateEntity entity) {

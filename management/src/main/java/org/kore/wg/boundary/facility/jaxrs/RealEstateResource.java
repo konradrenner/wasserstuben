@@ -19,6 +19,7 @@ package org.kore.wg.boundary.facility.jaxrs;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -46,16 +47,23 @@ public class RealEstateResource {
     @GET
     public Response getRealEstates(@PathParam("search") String search, @PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
         // TODO: https://opensource.zalando.com/restful-api-guidelines/#json-guidelines
-        Set<RealEstate> allEstates = repo.findAll();
+
+        RealEstateRepository.OrderingDirection orderingDirection = RealEstateRepository.OrderingDirection.valueOf(order);
+        RealEstateRepository.OrderingProperty orderingProperty = RealEstateRepository.OrderingProperty.valueOf(sort);
+        RealEstateRepository.Ordering ordering = new RealEstateRepository.Ordering(orderingProperty, orderingDirection);
+
+        RealEstateRepository.ResultArea area = new RealEstateRepository.ResultArea(page, page + limit);
+
+        RealEstateRepository.Result result = repo.find(search, area, ordering);
+        SortedSet<RealEstate> estates = result.estates();
         
-        if(allEstates.isEmpty()){
+        if (estates.isEmpty()) {
             return Response.noContent().build();
         }
-
         RealEstateListModel estateModels = new RealEstateListModel();
-        estateModels.realestates = new ArrayList<>(allEstates.size());
-        estateModels.totalNumber = 500;
-        allEstates.stream().map(RealEstateModel::from).forEach(estateModels.realestates::add);
+        estateModels.realestates = new ArrayList<>(estates.size());
+        estateModels.totalNumber = result.totalCount();
+        estates.stream().map(RealEstateModel::from).forEach(estateModels.realestates::add);
 
         return Response.ok(estateModels).build();
     }

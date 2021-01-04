@@ -20,6 +20,21 @@ package org.kore.wg.entity.facility;
  *
  * @author Konrad Renner
  */
-public record RealEstateId(long cadastralTownshipNumber, String estateId, long depositNumber) {
+public record RealEstateId(long cadastralTownshipNumber, String estateId, long depositNumber) implements Comparable<RealEstateId> {
 
+    @Override
+    public int compareTo(RealEstateId o) {
+        if (this.equals(o)) {
+            return 0;
+        }
+
+        int ret = (int) (cadastralTownshipNumber - o.cadastralTownshipNumber);
+        if (ret == 0) {
+            ret = estateId.compareTo(o.estateId);
+        }
+        if (ret == 0) {
+            ret = (int) (depositNumber - o.depositNumber);
+        }
+        return ret;
+    }
 }

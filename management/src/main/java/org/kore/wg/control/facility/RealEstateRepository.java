@@ -43,9 +43,23 @@ public interface RealEstateRepository {
 
     enum OrderingProperty {
         OWNER, CATASTRALDOWNSHIPNUMBER, ESTATEID, DEPOSITNUMBER;
+
+        public static OrderingProperty evalute(String val) {
+            if (val == null) {
+                return CATASTRALDOWNSHIPNUMBER;
+            }
+            return OrderingProperty.valueOf(val);
+        }
     }
 
     enum OrderingDirection {
         ASC, DESC;
+
+        public static OrderingDirection evalute(String val) {
+            if (val == null) {
+                return ASC;
+            }
+            return OrderingDirection.valueOf(val);
+        }
     }
 }

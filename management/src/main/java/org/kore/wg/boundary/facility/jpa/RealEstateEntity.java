@@ -45,13 +45,19 @@ import org.kore.wg.boundary.jpa.DefaultEntity;
         + "or UPPER(realestate.estateId) like :ssearch "
         + "or UPPER(owners.firstname) like :ssearch "
         + "or UPPER(owners.lastname) like :ssearch ")
-@NamedQuery(name = RealEstateEntity.FIND_BY_ALL_NUMERIC_FIELDS,
-        query = "select realestate from RealEstateEntity realestate")
+//@NamedQuery(name = RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS,
+//        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
+//        + "where UPPER(realestate.estateId) like :ssearch "
+//        + "or UPPER(owners.firstname) like :ssearch "
+//        + "or UPPER(owners.lastname) like :ssearch ")
+@NamedQuery(name = RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS,
+        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
+)
 public class RealEstateEntity extends DefaultEntity implements Serializable {
 
     static final String FIND_ALL = "RealEstateEntity.findAll";
     static final String FIND_BY_ALL_FIELDS = "RealEstateEntity.findByAllFields";
-    static final String FIND_BY_ALL_NUMERIC_FIELDS = "RealEstateEntity.findByNumericFields";
+    static final String FIND_BY_ALPHANUMERIC_FIELDS = "RealEstateEntity.findByAlphanumericFields";
 
     private long cadastralTownshipNumber;
     private String estateId;

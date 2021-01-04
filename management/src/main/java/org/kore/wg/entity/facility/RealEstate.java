@@ -28,7 +28,7 @@ import java.util.UUID;
  *
  * @author Konrad Renner
  */
-public class RealEstate {
+public class RealEstate implements Comparable<RealEstate> {
     private final RealEstateId id;
     private final Map<UUID, Owner> owner;
     private final Map<UUID, CounterFitting> fittings;
@@ -40,7 +40,15 @@ public class RealEstate {
         this.fittings = new HashMap<>(fittings.size());
         fittings.forEach(fitting -> this.fittings.put(fitting.getId(), fitting));
     }
-    
+
+    @Override
+    public int compareTo(RealEstate o) {
+        if (this.equals(o)) {
+            return 0;
+        }
+        return id.compareTo(o.id);
+    }
+
     
 
     public RealEstateId getId() {

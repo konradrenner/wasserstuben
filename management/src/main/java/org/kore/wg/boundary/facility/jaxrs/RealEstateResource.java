@@ -48,11 +48,12 @@ public class RealEstateResource {
     public Response getRealEstates(@PathParam("search") String search, @PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
         // TODO: https://opensource.zalando.com/restful-api-guidelines/#json-guidelines
 
-        RealEstateRepository.OrderingDirection orderingDirection = RealEstateRepository.OrderingDirection.valueOf(order);
-        RealEstateRepository.OrderingProperty orderingProperty = RealEstateRepository.OrderingProperty.valueOf(sort);
+        RealEstateRepository.OrderingDirection orderingDirection = RealEstateRepository.OrderingDirection.evalute(order);
+        RealEstateRepository.OrderingProperty orderingProperty = RealEstateRepository.OrderingProperty.evalute(sort);
         RealEstateRepository.Ordering ordering = new RealEstateRepository.Ordering(orderingProperty, orderingDirection);
+        long maxCount = limit <= 0 ? 100 : page + limit;
 
-        RealEstateRepository.ResultArea area = new RealEstateRepository.ResultArea(page, page + limit);
+        RealEstateRepository.ResultArea area = new RealEstateRepository.ResultArea(page, maxCount);
 
         RealEstateRepository.Result result = repo.find(search, area, ordering);
         SortedSet<RealEstate> estates = result.estates();

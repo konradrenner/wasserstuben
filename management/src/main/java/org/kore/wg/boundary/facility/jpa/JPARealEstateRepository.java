@@ -44,6 +44,8 @@ import org.kore.wg.entity.facility.RealEstateId;
 @ApplicationScoped
 public class JPARealEstateRepository implements RealEstateRepository {
 
+    private static final Logger LOG = Logger.getLogger(JPARealEstateRepository.class.getName());
+
     @Inject
     EntityManager em;
 
@@ -52,7 +54,7 @@ public class JPARealEstateRepository implements RealEstateRepository {
 
         List<RealEstateEntity> resultList = em.createNamedQuery(RealEstateEntity.FIND_ALL, RealEstateEntity.class).getResultList();
 
-        Logger.getLogger("JPARealEstateRepository").info("" + resultList);
+        LOG.info("" + resultList);
 
         LinkedHashSet<RealEstate> realEstates = new LinkedHashSet<>(resultList.size());
         resultList.stream().map(this::convertToRealEstate).forEach(realEstates::add);
@@ -62,24 +64,42 @@ public class JPARealEstateRepository implements RealEstateRepository {
 
     @Override
     public Result find(String search, ResultArea area, Ordering ordering) {
+        LOG.info("search: " + search + ";");
+        LOG.info("area: " + area);
+        LOG.info("ordering: " + ordering);
+
         long totalCountOfRealEstates = getTotalCountOfRealEstates();
+
+        LOG.info("totalCountOfRealEstates: " + totalCountOfRealEstates);
+
         SortedSet<RealEstate> realEstates = new TreeSet<>();
 
         if (totalCountOfRealEstates == 0) {
+            LOG.info("found nothing, return empty result");
             return new Result(realEstates, totalCountOfRealEstates);
         }
 
         try {
             Long numericSearchValue = Long.valueOf(search);
+            LOG.info("Performing search with all possible search fields");
             findFromAllFields(search, numericSearchValue, area, ordering, realEstates);
         } catch (NumberFormatException e) {
-            findFromAlphanumericFields(search, area, ordering);
+            LOG.info("Performing search with alphanumeric search fields");
+            findFromAlphanumericFields(search, area, ordering, realEstates);
         }
-        return new Result(realEstates, totalCountOfRealEstates);
+        Result result = new Result(realEstates, totalCountOfRealEstates);
+        LOG.info(result.toString());
+        return result;
     }
 
-    Result findFromAlphanumericFields(String search, ResultArea area, Ordering ordering) {
-        return null;
+    void findFromAlphanumericFields(String ssearch, ResultArea area, Ordering ordering, SortedSet<RealEstate> realEstates) {
+        em.createNamedQuery(RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS, RealEstateEntity.class)
+                //                .setParameter("ssearch", "%" + ssearch + "%")
+                .setFirstResult((int) area.start())
+                .setMaxResults((int) area.maxCount())
+                .getResultStream()
+                .map(this::convertToRealEstate)
+                .forEach(realEstates::add);
     }
 
     void findFromAllFields(String ssearch, Long lsearch, ResultArea area, Ordering ordering, SortedSet<RealEstate> realEstates) {

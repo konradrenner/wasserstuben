@@ -120,8 +120,20 @@ values (1, '926e5684-a795-4820-9a52-f7ee9a2828f5', 1, 'abcd', 2);
 insert into OWNER (VERSION, ID, FIRSTNAME, LASTNAME) 
 values (1, '5bef8aab-80d3-4b98-b3ce-dfcdf43ce6b1', 'Max', 'Mustermann');
 
+insert into REALESTATE (VERSION, ID, CADASTRALTOWNSHIPNUMBER, ESTATEID, DEPOSITNUMBER) 
+values (1, '926e5184-a795-4820-9a52-f7ee9a2828f5', 2, 'xyz', 1);
+
+insert into OWNER (VERSION, ID, FIRSTNAME, LASTNAME) 
+values (1, '5bef7aab-80d3-4b98-b3ce-dfcdf43ce6b1', 'Mizzi', 'Musterfrau');
+
 insert into REALESTATE_OWNER (REALESTATE_ID, OWNER_ID) 
 values ('926e5684-a795-4820-9a52-f7ee9a2828f5', '5bef8aab-80d3-4b98-b3ce-dfcdf43ce6b1');
+
+insert into REALESTATE_OWNER (REALESTATE_ID, OWNER_ID) 
+values ('926e5184-a795-4820-9a52-f7ee9a2828f5', '5bef8aab-80d3-4b98-b3ce-dfcdf43ce6b1');
+
+insert into REALESTATE_OWNER (REALESTATE_ID, OWNER_ID) 
+values ('926e5184-a795-4820-9a52-f7ee9a2828f5', '5bef7aab-80d3-4b98-b3ce-dfcdf43ce6b1');
 
 insert into COUNTERFITTING (VERSION, ID, REALESTATE_ID, DESCRIPTION, INSTALLATION, MANUFACTURER) 
 values (1, '1964ae29-f2e1-4d70-a0b2-eb42a430e71b', '926e5684-a795-4820-9a52-f7ee9a2828f5', 'test fitting', '2004-10-19 10:23:54', 'Super Mario');
@@ -131,3 +143,9 @@ values (1, '1964ae29-f2e1-4d70-a0b2-eb42a430e71b', '2004-10-19 10:23:54');
 
 insert into COUNTERFITTING_CALIBRATION (VERSION, COUNTERFITTING_ID, CALIBRATION) 
 values (1, '1964ae29-f2e1-4d70-a0b2-eb42a430e71b', '2009-09-10 12:32:45');
+
+insert into COUNTERFITTING (VERSION, ID, REALESTATE_ID, DESCRIPTION, INSTALLATION, MANUFACTURER) 
+values (1, '196cae29-f2e1-4d70-a0b2-eb42a430e71b', '926e5184-a795-4820-9a52-f7ee9a2828f5', 'another fitting', '2020-10-19 10:23:54', 'Luigi');
+
+insert into COUNTERFITTING_CALIBRATION (VERSION, COUNTERFITTING_ID, CALIBRATION) 
+values (1, '196cae29-f2e1-4d70-a0b2-eb42a430e71b', '2020-10-19 10:23:54');

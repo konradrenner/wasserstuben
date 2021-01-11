@@ -12,7 +12,7 @@ export class RealEstatesService {
   constructor(private http: HttpClient) { }
 
   getRealEstates(search: string, limit: number, page: number, sort: string, order: string): Observable<RealEstateList>{
-      return this.http.get<RealEstateList>('/api/v1/realestates?search='+search+'&limit='+limit+'&page='+page+'sort='+'&order='+order);
+      return this.http.get<RealEstateList>('/api/v1/realestates?search='+search+'&limit='+limit+'&firstindex='+page+'&sortproperty='+'&order='+order);
   }
 
   getRealEstate(cadastralTownshipNumber: number, estateId: string, depositNumber: number): Observable<RealEstate>{

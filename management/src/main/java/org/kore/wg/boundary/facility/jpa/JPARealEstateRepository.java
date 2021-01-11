@@ -26,8 +26,13 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 import org.kore.wg.control.facility.RealEstateRepository;
+import org.kore.wg.control.facility.RealEstateSearchBuilder;
 import org.kore.wg.entity.facility.Calibration;
 import org.kore.wg.entity.facility.CounterFitting;
 import org.kore.wg.entity.facility.Installation;
@@ -63,12 +68,10 @@ public class JPARealEstateRepository implements RealEstateRepository {
     }
 
     @Override
-    public Result find(String search, ResultArea area, Ordering ordering) {
+    public Result find(RealEstateSearchBuilder.Search search) {
         LOG.info("search: " + search + ";");
-        LOG.info("area: " + area);
-        LOG.info("ordering: " + ordering);
 
-        long totalCountOfRealEstates = getTotalCountOfRealEstates();
+        long totalCountOfRealEstates = getTotalCountOf(RealEstateEntity.class);
 
         LOG.info("totalCountOfRealEstates: " + totalCountOfRealEstates);
 
@@ -79,43 +82,28 @@ public class JPARealEstateRepository implements RealEstateRepository {
             return new Result(realEstates, totalCountOfRealEstates);
         }
 
-        try {
-            Long numericSearchValue = Long.valueOf(search);
-            LOG.info("Performing search with all possible search fields");
-            findFromAllFields(search, numericSearchValue, area, ordering, realEstates);
-        } catch (NumberFormatException e) {
-            LOG.info("Performing search with alphanumeric search fields");
-            findFromAlphanumericFields(search, area, ordering, realEstates);
-        }
+        TypedQuery<RealEstateEntity> query = em.createQuery(search.query(), RealEstateEntity.class);
+
+        query.setFirstResult((int) search.area().start())
+                .setMaxResults((int) search.area().maxCount())
+                .getResultStream()
+                .map(this::convertToRealEstate)
+                .forEach(realEstates::add);
+
         Result result = new Result(realEstates, totalCountOfRealEstates);
         LOG.info(result.toString());
         return result;
     }
 
-    void findFromAlphanumericFields(String ssearch, ResultArea area, Ordering ordering, SortedSet<RealEstate> realEstates) {
-        em.createNamedQuery(RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS, RealEstateEntity.class)
-                //                .setParameter("ssearch", "%" + ssearch + "%")
-                .setFirstResult((int) area.start())
-                .setMaxResults((int) area.maxCount())
-                .getResultStream()
-                .map(this::convertToRealEstate)
-                .forEach(realEstates::add);
-    }
+    <T> long getTotalCountOf(Class<T> entity) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> query = builder.createQuery(Long.class);
+        Root<T> root = query.from(entity);
+        Expression<Long> countExpression = builder.count(root);
+        query.select(countExpression);
+        TypedQuery<Long> typedQuery = em.createQuery(query);
 
-    void findFromAllFields(String ssearch, Long lsearch, ResultArea area, Ordering ordering, SortedSet<RealEstate> realEstates) {
-        em.createNamedQuery(RealEstateEntity.FIND_BY_ALL_FIELDS, RealEstateEntity.class)
-                .setParameter("ssearch", "%" + ssearch + "%")
-                .setParameter("lsearch", lsearch)
-                .setFirstResult((int) area.start())
-                .setMaxResults((int) area.maxCount())
-                .getResultStream()
-                .map(this::convertToRealEstate)
-                .forEach(realEstates::add);
-    }
-
-    long getTotalCountOfRealEstates() {
-        Query queryTotal = em.createQuery("select count(e.id) from RealEstateEntity e");
-        return (long) queryTotal.getSingleResult();
+        return typedQuery.getSingleResult().longValue();
     }
 
     RealEstate convertToRealEstate(RealEstateEntity entity) {

@@ -21,6 +21,7 @@
         <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
         <frontend-maven-plugin.version>1.9.1</frontend-maven-plugin.version>
         <resources-plugin.version>3.1.0</resources-plugin.version>
+        <hibernate-jpamodelgen.version>5.4.27.Final</hibernate-jpamodelgen.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -118,6 +119,24 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/annotations</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <configuration>
@@ -180,6 +199,13 @@
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.hibernate</groupId>
+                            <artifactId>hibernate-jpamodelgen</artifactId>
+                            <version>${hibernate-jpamodelgen.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

@@ -20,17 +20,23 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.RealEstate;
 import org.kore.wg.entity.facility.RealEstateId;
+import org.kore.wg.control.facility.RealEstateSearchBuilder;
 
 /**
  *
@@ -40,22 +46,45 @@ import org.kore.wg.entity.facility.RealEstateId;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RealEstateResource {
+
+    private static final Logger LOG = Logger.getLogger(RealEstateResource.class.getName());
     
     @Inject
     RealEstateRepository repo;
 
+    @Inject
+    RealEstateSearchBuilder searchBuilder;
+    
+    @Context
+    UriInfo uriInfo;
+
     @GET
-    public Response getRealEstates(@PathParam("search") String search, @PathParam("limit") long limit, @PathParam("page") long page, @PathParam("sort") String sort, @PathParam("order") String order) {
+    public Response getRealEstates(@QueryParam("search") @DefaultValue("") String search,
+            @QueryParam("limit") @DefaultValue("100") long limit,
+            @QueryParam("firstindex") @DefaultValue("0") long page,
+            @QueryParam("sortproperty") @DefaultValue("CADASTRALTOWNSHIPNUMBER") String sort,
+            @QueryParam("order") @DefaultValue("ASC") String order) {
         // TODO: https://opensource.zalando.com/restful-api-guidelines/#json-guidelines
+        
+        LOG.info("search:" + search);
+        LOG.info("limits:" + limit);
+        LOG.info("page:" + page);
+        LOG.info("sort:" + sort);
+        LOG.info("order:" + order);
 
-        RealEstateRepository.OrderingDirection orderingDirection = RealEstateRepository.OrderingDirection.evalute(order);
-        RealEstateRepository.OrderingProperty orderingProperty = RealEstateRepository.OrderingProperty.evalute(sort);
-        RealEstateRepository.Ordering ordering = new RealEstateRepository.Ordering(orderingProperty, orderingDirection);
+        RealEstateSearchBuilder.OrderingDirection orderingDirection = RealEstateSearchBuilder.OrderingDirection.evalute(order);
+        RealEstateSearchBuilder.OrderingProperty orderingProperty = RealEstateSearchBuilder.OrderingProperty.evalute(sort);
         long maxCount = limit <= 0 ? 100 : page + limit;
+        RealEstateSearchBuilder.ResultArea area = new RealEstateSearchBuilder.ResultArea(page, maxCount);
 
-        RealEstateRepository.ResultArea area = new RealEstateRepository.ResultArea(page, maxCount);
+        RealEstateSearchBuilder.Search estateSearch = searchBuilder.createWithSearchString(search)
+                .resultArea(area)
+                .orderingDirection(orderingDirection)
+                .orderingProperty(orderingProperty)
+                .orderingProperty(orderingProperty)
+                .build();
 
-        RealEstateRepository.Result result = repo.find(search, area, ordering);
+        RealEstateRepository.Result result = repo.find(estateSearch);
         SortedSet<RealEstate> estates = result.estates();
         
         if (estates.isEmpty()) {

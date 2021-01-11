@@ -25,7 +25,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.kore.wg.boundary.jpa.DefaultEntity;
@@ -36,32 +35,15 @@ import org.kore.wg.boundary.jpa.DefaultEntity;
  */
 @Entity
 @Table(name = "REALESTATE")
-@NamedQuery(name = RealEstateEntity.FIND_ALL,
-        query = "select realestate from RealEstateEntity realestate")
-@NamedQuery(name = RealEstateEntity.FIND_BY_ALL_FIELDS,
-        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
-        + "where realestate.cadastralTownshipNumber = :lsearch "
-        + "or realestate.depositNumber = :lsearch "
-        + "or UPPER(realestate.estateId) like :ssearch "
-        + "or UPPER(owners.firstname) like :ssearch "
-        + "or UPPER(owners.lastname) like :ssearch ")
-//@NamedQuery(name = RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS,
-//        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
-//        + "where UPPER(realestate.estateId) like :ssearch "
-//        + "or UPPER(owners.firstname) like :ssearch "
-//        + "or UPPER(owners.lastname) like :ssearch ")
-@NamedQuery(name = RealEstateEntity.FIND_BY_ALPHANUMERIC_FIELDS,
-        query = "select realestate from RealEstateEntity realestate join realestate.owners owners "
-)
 public class RealEstateEntity extends DefaultEntity implements Serializable {
 
     static final String FIND_ALL = "RealEstateEntity.findAll";
     static final String FIND_BY_ALL_FIELDS = "RealEstateEntity.findByAllFields";
     static final String FIND_BY_ALPHANUMERIC_FIELDS = "RealEstateEntity.findByAlphanumericFields";
 
-    private long cadastralTownshipNumber;
+    private long cadastraltownshipnumber;
     private String estateId;
-    private long depositNumber;
+    private long depositnumber;
 
     @OneToMany(mappedBy = "realEstate", orphanRemoval = true, fetch = FetchType.LAZY)
     @MapKey(name = "id")
@@ -89,11 +71,11 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
     }
 
     public long getCadastralTownshipNumber() {
-        return cadastralTownshipNumber;
+        return cadastraltownshipnumber;
     }
 
     void setCadastralTownshipNumber(long cadastralTownshipNumber) {
-        this.cadastralTownshipNumber = cadastralTownshipNumber;
+        this.cadastraltownshipnumber = cadastralTownshipNumber;
     }
 
     public String getEstateId() {
@@ -105,16 +87,16 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
     }
 
     public long getDepositNumber() {
-        return depositNumber;
+        return depositnumber;
     }
 
     void setDepositNumber(long depositNumber) {
-        this.depositNumber = depositNumber;
+        this.depositnumber = depositNumber;
     }
 
     @Override
     public String toString() {
-        return "RealEstateEntity{ " + super.toString() + ", cadastralTownshipNumber=" + cadastralTownshipNumber + ", estateId=" + estateId + ", depositNumber=" + depositNumber + ", counterfittings=" + counterfittings + ", owners=" + owners + '}';
+        return "RealEstateEntity{ " + super.toString() + ", cadastralTownshipNumber=" + cadastraltownshipnumber + ", estateId=" + estateId + ", depositNumber=" + depositnumber + ", counterfittings=" + counterfittings + ", owners=" + owners + '}';
     }
 
 }

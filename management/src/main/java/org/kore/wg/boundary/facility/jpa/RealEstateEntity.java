@@ -58,6 +58,10 @@ public class RealEstateEntity extends DefaultEntity implements Serializable {
     @MapKey(name = "id")
     private Map<String, OwnerEntity> owners;
 
+    protected RealEstateEntity() {
+        // declared protected
+    }
+
     Collection<CounterfittingEntity> getCounterfittings() {
         return counterfittings.values();
     }

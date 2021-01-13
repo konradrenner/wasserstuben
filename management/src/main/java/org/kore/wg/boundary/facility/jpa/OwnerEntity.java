@@ -38,6 +38,10 @@ public class OwnerEntity extends DefaultEntity implements Serializable {
     @ManyToMany(mappedBy = "owners")
     private List<RealEstateEntity> realEstates;
 
+    protected OwnerEntity() {
+        // declared protected
+    }
+
     Collection<RealEstateEntity> getRealEstates() {
         return realEstates;
     }

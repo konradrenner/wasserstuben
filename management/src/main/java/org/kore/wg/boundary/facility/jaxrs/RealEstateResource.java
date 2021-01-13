@@ -29,10 +29,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import org.kore.wg.control.facility.RealEstateRepository;
 import org.kore.wg.entity.facility.RealEstate;
 import org.kore.wg.entity.facility.RealEstateId;
@@ -54,9 +52,16 @@ public class RealEstateResource {
 
     @Inject
     RealEstateSearchBuilder searchBuilder;
-    
-    @Context
-    UriInfo uriInfo;
+
+    public RealEstateResource() {
+    }
+
+    RealEstateResource(RealEstateRepository repo, RealEstateSearchBuilder searchBuilder) {
+        //Testconstructor
+        this.repo = repo;
+        this.searchBuilder = searchBuilder;
+    }
+
 
     @GET
     public Response getRealEstates(@QueryParam("search") @DefaultValue("") String search,
@@ -74,7 +79,7 @@ public class RealEstateResource {
 
         RealEstateSearchBuilder.OrderingDirection orderingDirection = RealEstateSearchBuilder.OrderingDirection.evalute(order);
         RealEstateSearchBuilder.OrderingProperty orderingProperty = RealEstateSearchBuilder.OrderingProperty.evalute(sort);
-        long maxCount = limit <= 0 ? 100 : page + limit;
+        long maxCount = page + limit;
         RealEstateSearchBuilder.ResultArea area = new RealEstateSearchBuilder.ResultArea(page, maxCount);
 
         RealEstateSearchBuilder.Search estateSearch = searchBuilder.createWithSearchString(search)
@@ -108,9 +113,8 @@ public class RealEstateResource {
         Set<RealEstate> allEstates = repo.findAll();
         Optional<RealEstate> real = allEstates.stream().filter(estate -> estate.getId().equals(id)).findFirst();
 
-        if (real.isPresent()) {
-            return Response.ok(real.map(RealEstateModel::from).get()).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return real.map(RealEstateModel::from)
+                .map(model -> Response.ok(model).build())
+                .orElse(Response.status(Response.Status.NOT_FOUND).build());
     }
 }

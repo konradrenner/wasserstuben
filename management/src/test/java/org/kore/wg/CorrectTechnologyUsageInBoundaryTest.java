@@ -31,6 +31,7 @@ public class CorrectTechnologyUsageInBoundaryTest {
                     "javax.enterprise..",
                     "javax.inject..",
                     "javax.ws.rs..",
+                    "javax.servlet..",
                     "org.kore.wg.boundary..jaxrs..",
                     "org.kore.wg.control..",
                     "org.kore.wg.entity..");

@@ -50,6 +50,10 @@ public class CounterfittingEntity extends DefaultEntity implements Serializable 
     @OneToMany(mappedBy = "counterfitting", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<CounterfittingCalibrationEntity> calibrations;
 
+    protected CounterfittingEntity() {
+        // declared protected
+    }
+
     public String getDescription() {
         return description;
     }
